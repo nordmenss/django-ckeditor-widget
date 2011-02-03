@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 from distutils.core import setup
 import os
+from ckeditor_widget import VERSION
 path='ckeditor_widget'
-from path import VERSION
 
 long_description = open('README.txt').read()
 packages, data_files = [], []
