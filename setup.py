@@ -44,6 +44,6 @@ setup(
         'Programming Language :: Python',
         'Framework :: Django',
     ],
-    install_requires=['django-ckeditor'],
+    #install_requires=['django-ckeditor'],
     zip_safe=False,
 )
