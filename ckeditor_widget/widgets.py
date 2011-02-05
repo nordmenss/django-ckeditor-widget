@@ -17,6 +17,11 @@ DEFAULT_CONFIG = {
     'filebrowserWindowHeight': 747,
 }
 
+def get_lang_title(value):
+    for code,title in settings.LANGUAGES:
+        if value==code:
+            return _(title)
+
 class CKEditorWidget(forms.Textarea):
     def __init__(self, config_name='default', attrs=None, mce_attrs=None):
         super(CustomCKEditorWidget, self).__init__(attrs)
