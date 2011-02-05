@@ -24,7 +24,7 @@ def get_lang_title(value):
 
 class CKEditorWidget(forms.Textarea):
     def __init__(self, config_name='default', attrs=None, mce_attrs=None):
-        super(CustomCKEditorWidget, self).__init__(attrs)
+        super(CKEditorWidget, self).__init__(attrs)
         self.config_name=config_name
 
     class Media:
