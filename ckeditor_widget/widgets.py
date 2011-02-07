@@ -52,6 +52,11 @@ def get_lang_title(value):
         if value==code:
             return _(title)
 
+def write2file(filename, content):
+    FILE = open(filename, "w")
+    FILE.writelines(content)
+    FILE.close()
+
 class CKEditorWidget(forms.Textarea):
     def __init__(self, config_name='default', attrs=None, mce_attrs=None):
         super(CKEditorWidget, self).__init__(attrs)
@@ -71,6 +76,8 @@ class CKEditorWidget(forms.Textarea):
         final_attrs = self.build_attrs(attrs, name=name)
 
         self_config = getattr(DEFAULT_CONFIG, config_name, None)
+        write2file("/development/config.txt",str(self_config))
+        write2file("/development/config_name.txt",str(config_name))
         configs = getattr(settings, 'CKEDITOR_CONFIGS', None)
         if configs != None:
             if isinstance(configs, dict):
