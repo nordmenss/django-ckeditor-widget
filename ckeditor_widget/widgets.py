@@ -5,6 +5,7 @@ from django.utils.encoding import smart_unicode
 from django.utils.html import escape
 from django.utils.simplejson import *
 from django.utils.safestring import mark_safe
+from django.core.exceptions import ImproperlyConfigured
 from ckeditor.widgets import CKEditorWidget
 from django.utils.translation import ugettext as _
 
@@ -19,7 +20,21 @@ DEFAULT_CONFIG = {
         ],
         'width': 800,
         'height': 88,
+        'skin': 'office2003',
     },
+    'html_block': {
+        'toolbar': [
+            [ 'Source','-','Bold', 'Italic', 'Underline',
+             '-','NumberedList','BulletedList',
+              '-', 'Link', 'Unlink','Image',
+              '-',  'Scayt',
+            ],
+        ],
+        'width': 800,
+        'height': 88,
+        'skin': 'office2003',
+    },
+
     'introtext': {
         'toolbar': [
             [ 'Source','-','Bold', 'Italic', 'Underline',
@@ -30,6 +45,7 @@ DEFAULT_CONFIG = {
         ],
         'width': 800,
         'height': 88,
+        'skin': 'office2003',
     },
     'content': {
         'toolbar': [
@@ -44,6 +60,7 @@ DEFAULT_CONFIG = {
         ],
         'width': 800,
         'height': 400,
+        'skin': 'office2003',
     },
 }
 
@@ -51,11 +68,6 @@ def get_lang_title(value):
     for code,title in settings.LANGUAGES:
         if value==code:
             return _(title)
-
-def write2file(filename, content):
-    FILE = open(filename, "w")
-    FILE.writelines(content)
-    FILE.close()
 
 class CKEditorWidget(forms.Textarea):
     def __init__(self, config_name='default', attrs=None, mce_attrs=None):
@@ -75,9 +87,7 @@ class CKEditorWidget(forms.Textarea):
         value = smart_unicode(value)
         final_attrs = self.build_attrs(attrs, name=name)
 
-        self_config = getattr(DEFAULT_CONFIG, config_name, None)
-        write2file("/development/config.txt",str(self_config))
-        write2file("/development/config_name.txt",str(config_name))
+        self_config = DEFAULT_CONFIG[self.config_name].copy()
         configs = getattr(settings, 'CKEDITOR_CONFIGS', None)
         if configs != None:
             if isinstance(configs, dict):
@@ -88,8 +98,8 @@ class CKEditorWidget(forms.Textarea):
                     if not isinstance(config, dict):
                         raise ImproperlyConfigured('CKEDITOR_CONFIGS["%s"] setting must be a dictionary type.' % self.config_name)
                     self_config.update(config)
-                else:
-                    raise ImproperlyConfigured("No configuration named '%s' found in your CKEDITOR_CONFIGS setting." % self.config_name)
+                #else:
+                    #raise ImproperlyConfigured("No configuration named '%s' found in your CKEDITOR_CONFIGS setting." % self.config_name)
             else:
                 raise ImproperlyConfigured('CKEDITOR_CONFIGS setting must be a dictionary type.')
 
