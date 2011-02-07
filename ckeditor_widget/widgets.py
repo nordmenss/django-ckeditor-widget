@@ -9,12 +9,42 @@ from ckeditor.widgets import CKEditorWidget
 from django.utils.translation import ugettext as _
 
 DEFAULT_CONFIG = {
-    'skin': 'office2003',
-    'toolbar': 'Basic',
-    'height': 291,
-    'width': 618,
-    'filebrowserWindowWidth': 940,
-    'filebrowserWindowHeight': 747,
+    'default': {
+        'toolbar': [
+            [ 'Source','-','Bold', 'Italic', 'Underline',
+             '-','NumberedList','BulletedList',
+              '-', 'Link', 'Unlink','Image',
+              '-',  'Scayt',
+            ],
+        ],
+        'width': 800,
+        'height': 88,
+    },
+    'introtext': {
+        'toolbar': [
+            [ 'Source','-','Bold', 'Italic', 'Underline',
+             '-','NumberedList','BulletedList',
+              '-', 'Link', 'Unlink','Image',
+              '-',  'Scayt',
+            ],
+        ],
+        'width': 800,
+        'height': 88,
+    },
+    'content': {
+        'toolbar': [
+            [ 'Source','-','Bold', 'Italic', 'Underline','Strike','Blockquote'],
+            ['NumberedList','BulletedList','Blockquote'],
+            ['JustifyLeft','JustifyCenter','JustifyRight','JustifyBlock'],
+            ['Font','FontSize','TextColor','BGColor'],
+            ['Scayt',],
+            '/',
+            ['Link', 'Unlink','Image','Table'],
+            ['HorizontalRule','SpecialChar'],
+        ],
+        'width': 800,
+        'height': 400,
+    },
 }
 
 def get_lang_title(value):
@@ -40,7 +70,7 @@ class CKEditorWidget(forms.Textarea):
         value = smart_unicode(value)
         final_attrs = self.build_attrs(attrs, name=name)
 
-        self_config = DEFAULT_CONFIG
+        self_config = DEFAULT_CONFIG['config_name']
         configs = getattr(settings, 'CKEDITOR_CONFIGS', None)
         if configs != None:
             if isinstance(configs, dict):
