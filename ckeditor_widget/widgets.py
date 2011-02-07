@@ -70,7 +70,7 @@ class CKEditorWidget(forms.Textarea):
         value = smart_unicode(value)
         final_attrs = self.build_attrs(attrs, name=name)
 
-        self_config = DEFAULT_CONFIG[config_name]
+        self_config = getattr(DEFAULT_CONFIG, config_name, None)
         configs = getattr(settings, 'CKEDITOR_CONFIGS', None)
         if configs != None:
             if isinstance(configs, dict):
